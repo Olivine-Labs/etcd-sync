@@ -8,10 +8,10 @@ function o.getUpdates(http, sourceURL, destinationURL, rootKey, lastIndex)
     sourceURL,
     '/v2/keys',
     rootKey,
-    '?recursive=true&wait=true'
+    '?recursive=true'
   }
   if lastIndex then
-    url[#url+1] = '&waitIndex='..tostring(lastIndex)
+    url[#url+1] = '&wait=true&waitIndex='..tostring(lastIndex)
   end
 
   local code, data = http.get(table.concat(url))
