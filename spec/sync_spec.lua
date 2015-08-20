@@ -14,11 +14,19 @@ function mockHttp.get(url)
   return 200, decoded
 end
 
+function mockHttp.put(url, data)
+  return 200, nil
+end
+
+function mockHttp.delete(url)
+  return 200, nil
+end
+
 
 describe('can process etcd output', function()
   it('can flatten an etcd dump json file', function()
-    local data, index = util.flatten(decoded.node)
-    assert.equal(77, index)
+    local data, index = util.flatten(decoded.action, decoded.node)
+    assert.equal(20277, index)
     assert.equal(15, #data)
     assert.truthy(data[1].key)
     assert.truthy(data[1].value)
@@ -27,9 +35,7 @@ describe('can process etcd output', function()
 
   it('can process data end to end', function()
 
-    mockHttp.put = spy.new(function(url, data)
-      return 200, nil
-    end)
+    spy.on(mockHttp, 'put')
 
     server.getUpdates(mockHttp, '', '', '')
     assert.spy(mockHttp.put).was_called(15)
