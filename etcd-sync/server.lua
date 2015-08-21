@@ -23,7 +23,7 @@ function o.getUpdates(http, sourceURL, destinationURL, rootKey, lastIndex)
         delete = function()
           local code, data = http.put(
             destinationURL..'/v2/keys'..o.key,
-            {value=o.value, expiration=o.expiration}
+            o.value
           )
           if code >= 300 or code < 200 then
             error('Error during DELETE to destination: '..json.encode(data))
@@ -32,7 +32,7 @@ function o.getUpdates(http, sourceURL, destinationURL, rootKey, lastIndex)
         set = function()
           local code, data = http.put(
             destinationURL..'/v2/keys'..o.key,
-            {value=o.value, expiration=o.expiration}
+            o.value
           )
           if code >= 300 or code < 200 then
             error('Error during PUT to destination: '..json.encode(data))

@@ -62,24 +62,14 @@ function o.http.get(url)
 end
 
 function o.http.put(url, data)
-  local input
-  for k, v in pairs(data) do
-    if not input then
-      input = ''
-    else
-      input = input..'&'
-    end
-    input = input..k..'='..o.urlencode(tostring(v))
-  end
-  local body = {}
   local result, code, headers, status = http.request({
     url = url,
-    source = ltn12.source.string(json.encode(data)),
-    sink = ltn12.sink.table(body),
+    source = ltn12.source.string(data),
+    sink = ltn12.sink.table(data),
     create = create,
     method = 'PUT',
     headers = {
-      ['content-type'] = 'application/x-www-form-urlencoded',
+      ['content-type'] = 'application/json',
     },
     redirect = true,
   })
