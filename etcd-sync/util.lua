@@ -62,10 +62,11 @@ function o.http.get(url)
 end
 
 function o.http.put(url, data)
+  local body = {}
   local result, code, headers, status = http.request({
     url = url,
     source = ltn12.source.string(data),
-    sink = ltn12.sink.table(data),
+    sink = ltn12.sink.table(body),
     create = create,
     method = 'PUT',
     headers = {
