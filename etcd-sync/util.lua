@@ -65,12 +65,12 @@ function o.http.put(url, data)
   local body = {}
   local result, code, headers, status = http.request({
     url = url,
-    source = ltn12.source.string(data),
+    source = ltn12.source.string('value='..o.urlencode(data)),
     sink = ltn12.sink.table(body),
     create = create,
     method = 'PUT',
     headers = {
-      ['content-type'] = 'application/json',
+      ['Content-Type'] = 'application/x-www-form-urlencoded',
     },
     redirect = true,
   })
