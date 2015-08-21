@@ -53,7 +53,10 @@ function o.getUpdates(http, sourceURL, destinationURL, rootKey, lastIndex)
     end
 
   elseif code == 400 then
-    error('Failed to get etcd changes with code '..tostring(code)..json.encode(data))
+    if data.index then
+      return data.index
+    end
+    print('Failed to get etcd changes with code '..tostring(code)..json.encode(data))
   else
     print('failed to get etcd changes with code ', tostring(code), json.encode(data))
   end
