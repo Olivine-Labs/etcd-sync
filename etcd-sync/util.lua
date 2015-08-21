@@ -54,7 +54,6 @@ function o.http.get(url)
   end
   local data
   if #body > 0 then
-    print(table.concat(body))
     data = json.decode(table.concat(body))
   end
 
@@ -63,14 +62,16 @@ end
 
 function o.http.put(url, data)
   local body = {}
+  local input = 'value='..o.urlencode(data)
   local result, code, headers, status = http.request({
     url = url,
-    source = ltn12.source.string('value='..o.urlencode(data)),
+    source = ltn12.source.string(input),
     sink = ltn12.sink.table(body),
     create = create,
     method = 'PUT',
     headers = {
       ['Content-Type'] = 'application/x-www-form-urlencoded',
+      ['Content-Length'] = #input
     },
     redirect = true,
   })
@@ -101,7 +102,6 @@ function o.http.delete(url)
   end
   local data
   if #body > 0 then
-    print(table.concat(body))
     data = json.decode(table.concat(body))
   end
 
